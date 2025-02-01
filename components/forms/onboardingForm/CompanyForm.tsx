@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { companySchema } from "@/app/utils/zodSchema";
@@ -26,6 +26,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { UploadDropzone } from "@/components/ReExportedUploadthing";
 import Image from "next/image";
 import { XIcon } from "lucide-react";
+import { createCompany } from "@/app/actions/actions";
+import { Button } from "@/components/ui/button";
 
 export const CompanyForm = () => {
   const form = useForm<z.infer<typeof companySchema>>({
@@ -39,9 +41,27 @@ export const CompanyForm = () => {
       xAccount: "",
     },
   });
+
+  const [isPending, setIsPending] = useState(false);
+
+  async function onSubmit(data: z.infer<typeof companySchema>) {
+    try {
+      setIsPending(true);
+      await createCompany(data);
+    } catch (error) {
+      if (error instanceof Error && error.message !== "NEXT_REDIRECT") {
+        console.error(
+          `something went wrong while submitting form ${error.message}`
+        );
+      }
+    } finally {
+      setIsPending(false);
+    }
+  }
+
   return (
     <Form {...form}>
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
@@ -151,9 +171,9 @@ export const CompanyForm = () => {
             <FormItem>
               <FormLabel>Company Logo</FormLabel>
               <FormControl>
-                <div>
+                <div className="flex justify-center">
                   {field.value ? (
-                    <div className="relative w-fit">
+                    <div className="relative w-fit ">
                       <Image
                         src={field.value}
                         alt="company logo"
@@ -186,6 +206,9 @@ export const CompanyForm = () => {
             </FormItem>
           )}
         />
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending ? "Submitting..." : "Continue"}
+        </Button>
       </form>
     </Form>
   );
