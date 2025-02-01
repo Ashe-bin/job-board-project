@@ -177,8 +177,8 @@ export const CompanyForm = () => {
                       <Image
                         src={field.value}
                         alt="company logo"
-                        width={200}
-                        height={200}
+                        width={100}
+                        height={100}
                         className="rounded-lg"
                       />
                       <div
