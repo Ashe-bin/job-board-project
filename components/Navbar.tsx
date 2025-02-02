@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Button, buttonVariants } from "./ui/button";
+import { buttonVariants } from "./ui/button";
 import { ModeToggle } from "./ModeToggle";
 import { LogoIcon } from "./icons/icons";
-import { auth, signOut } from "@/app/utils/auth";
+import { auth } from "@/app/utils/auth";
+import { UserDropDown } from "./UserDropDown";
 
 export async function Navbar() {
   const session = await auth();
@@ -14,20 +15,22 @@ export async function Navbar() {
           Job<span className="text-primary">Board</span>
         </h1>
       </Link>
-      <div className="flex justify-center items-center gap-4">
+
+      {/* destop nav */}
+      <div className="hidden md:flex justify-center items-center gap-4">
         <ModeToggle />
+        <Link href={"/post-job"} className={buttonVariants({ size: "lg" })}>
+          post job
+        </Link>
         {session?.user ? (
-          <form
-            action={async () => {
-              "use server";
-              await signOut({ redirectTo: "/" });
-            }}
-          >
-            <Button>Logout</Button>
-          </form>
+          <UserDropDown
+            email={session.user.email as string}
+            name={session.user.name as string}
+            image={session.user.image as string}
+          />
         ) : (
           <Link
-            href={"/login"}
+            href="/login"
             className={buttonVariants({ variant: "outline", size: "lg" })}
           >
             Login
