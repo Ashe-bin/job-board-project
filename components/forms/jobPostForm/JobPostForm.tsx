@@ -32,8 +32,26 @@ import { XIcon } from "lucide-react";
 import { UploadDropzone } from "@/components/ReExportedUploadthing";
 import JobListingDurationSelector from "@/components/JobListingDurationSelector";
 import { Button } from "@/components/ui/button";
+import { createJob } from "@/app/actions/actions";
+import { useState } from "react";
 
-export const JobPostForm = () => {
+interface JobPostFormProps {
+  companyName: string;
+  companyLocation: string;
+  companyAbout: string;
+  companyLogo: string;
+  companyWebsite: string;
+  companyXAccount: string | null;
+}
+
+export const JobPostForm = ({
+  companyName,
+  companyLocation,
+  companyAbout,
+  companyLogo,
+  companyWebsite,
+  companyXAccount,
+}: JobPostFormProps) => {
   const form = useForm<z.infer<typeof jobPostSchema>>({
     resolver: zodResolver(jobPostSchema),
     defaultValues: {
@@ -45,22 +63,33 @@ export const JobPostForm = () => {
       salaryFrom: 0,
       salaryTo: 0,
       listingDuration: 30,
-      companyXAccount: "",
-      companyAbout: "",
-      companyLocation: "",
-      companyLogo: "",
-      companyName: "",
-      companyWebsite: "",
+      companyXAccount: companyXAccount ?? "",
+      companyAbout: companyAbout ?? "",
+      companyLocation: companyLocation ?? "",
+      companyLogo: companyLogo ?? "",
+      companyName: companyName ?? "",
+      companyWebsite: companyWebsite ?? "",
     },
   });
 
+  const [isPending, setIsPending] = useState(false);
+
   async function onSubmit(values: z.infer<typeof jobPostSchema>) {
-    console.log("submit", values);
+    try {
+      setIsPending(true);
+      await createJob(values);
+    } catch (error) {
+      if (error instanceof Error && error.message !== "NEXT_REDIRECT") {
+        console.log(`something went wrong error: ${error}`);
+      }
+    } finally {
+      setIsPending(false);
+    }
   }
   return (
     <Form {...form}>
       <form
-        className="grid col-span-1 md:col-span-2  gap-y-2"
+        className="grid col-span-1 md:col-span-2  gap-y-2 py-5"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <Card>
@@ -156,8 +185,8 @@ export const JobPostForm = () => {
                 <FormControl>
                   <SalaryRangeSelector
                     control={form.control}
-                    minSalary={10}
-                    maxSalary={1000000}
+                    minSalary={0}
+                    maxSalary={500000}
                     currency="USD"
                     step={10}
                   />
@@ -356,8 +385,8 @@ export const JobPostForm = () => {
             />
           </CardContent>
         </Card>
-        <Button type="submit" className="w-full">
-          post Job
+        <Button type="submit" className="w-full" disabled={isPending}>
+          {isPending ? "Submitting..." : "Post Job"}
         </Button>
       </form>
     </Form>

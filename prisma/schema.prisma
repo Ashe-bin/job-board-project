@@ -20,6 +20,7 @@ model User {
 
   Company       Company?
   JobSeeker     JobSeeker?
+  stripeCustomerId String? @unique
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

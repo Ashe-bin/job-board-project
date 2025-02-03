@@ -1,3 +1,5 @@
+import { checkSessionExits } from "@/app/utils/checkSessionExits";
+import { prisma } from "@/app/utils/db";
 import { JobPostForm } from "@/components/forms/jobPostForm/JobPostForm";
 import {
   Card,
@@ -9,6 +11,7 @@ import {
 import ArcjetLogo from "@/public/arcjet.jpg";
 import IngestLogo from "@/public/inngest-locale.png";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 const Companies = [
   { id: 0, name: "ArcJet", logo: ArcjetLogo },
@@ -48,10 +51,39 @@ const stats = [
 ];
 console.log(testimonials);
 
-const PostJobPage = () => {
+async function getCompany(userId: string) {
+  const data = await prisma.company.findUnique({
+    where: { userId: userId },
+    select: {
+      name: true,
+      location: true,
+      about: true,
+      logo: true,
+      xAccount: true,
+      website: true,
+    },
+  });
+
+  if (!data) {
+    return redirect("/");
+  }
+  return data;
+}
+
+const PostJobPage = async () => {
+  const session = await checkSessionExits();
+  const data = await getCompany(session.id as string);
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">     
-      <JobPostForm />
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
+      <JobPostForm
+        companyName={data.name}
+        companyLocation={data.location}
+        companyWebsite={data.website}
+        companyXAccount={data.xAccount}
+        companyAbout={data.about}
+        companyLogo={data.logo}
+      />
       <div className="col-span-1 text-white">
         <Card>
           <CardHeader>
