@@ -47,7 +47,12 @@ export const JobListing = async () => {
           ))}
         </div>
       ) : (
-        <EmptyState />
+        <EmptyState
+          title="No jobs found"
+          description="Try searching for a different job title or location."
+          buttonText="Clear all filters"
+          href="/"
+        />
       )}
     </>
   );
