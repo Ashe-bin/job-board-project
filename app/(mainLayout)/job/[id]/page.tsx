@@ -1,40 +1,74 @@
+import { deleteSavedJobPost, saveJobPost } from "@/app/actions/actions";
+import arcjet, { detectBot, fixedWindow } from "@/app/utils/arcjet";
+import { auth } from "@/app/utils/auth";
 import { prisma } from "@/app/utils/db";
 import { benefits } from "@/app/utils/listofBenefits";
+import { SaveJobButton } from "@/components/forms/SubmitButton";
 import { JsonToHtml } from "@/components/JsonToHtml";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { request } from "@arcjet/next";
 import { Heart } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
-async function getJob(id: string) {
-  const jobData = await prisma.jobPost.findUnique({
-    where: { status: "ACTIVE", id: id },
-    select: {
-      jobTitle: true,
-      jobDescription: true,
-      location: true,
-      employmentType: true,
-      benefit: true,
-      createdAt: true,
-      listingDuration: true,
-      Company: {
-        select: { name: true, logo: true, location: true, about: true },
+const aj = arcjet
+  .withRule(
+    detectBot({
+      mode: "LIVE",
+      allow: ["CATEGORY:SEARCH_ENGINE", "CATEGORY:PREVIEW"],
+    })
+  )
+  .withRule(fixedWindow({ mode: "LIVE", max: 10, window: "60s" }));
+async function getJob(id: string, userId?: string) {
+  const [jobData, savedJob] = await Promise.all([
+    prisma.jobPost.findUnique({
+      where: { status: "ACTIVE", id: id },
+      select: {
+        jobTitle: true,
+        jobDescription: true,
+        location: true,
+        employmentType: true,
+        benefit: true,
+        createdAt: true,
+        listingDuration: true,
+        Company: {
+          select: { name: true, logo: true, location: true, about: true },
+        },
       },
-    },
-  });
+    }),
+    userId
+      ? prisma.savedJobPost.findUnique({
+          where: { userId_jobPostId: { jobPostId: id, userId: userId } },
+          select: { id: true },
+        })
+      : null,
+  ]);
 
   if (!jobData) {
     return notFound();
   }
-  return jobData;
+  return { jobData, savedJob };
 }
 type Params = Promise<{ id: string }>;
+
 const JobListPage = async ({ params }: { params: Params }) => {
   const { id } = await params;
-  const jobData = await getJob(id);
+
+  const req = await request();
+
+  const decision = await aj.protect(req);
+
+  const session = await auth();
+
+  if (decision.isDenied()) {
+    throw new Error("forbidden");
+  }
+
+  const { jobData, savedJob } = await getJob(id, session?.user?.id);
 
   return (
     <div className="container mx-auto py-8">
@@ -59,10 +93,25 @@ const JobListPage = async ({ params }: { params: Params }) => {
                 </Badge>
               </div>
             </div>
-            <Button variant={"outline"}>
-              <Heart className="size-4" />
-              Save jobs
-            </Button>
+            {session?.user ? (
+              <form
+                action={
+                  savedJob
+                    ? deleteSavedJobPost.bind(null, savedJob.id)
+                    : saveJobPost.bind(null, id)
+                }
+              >
+                <SaveJobButton isJobSaved={!!savedJob} />
+              </form>
+            ) : (
+              <Link
+                href={"/login"}
+                className={buttonVariants({ variant: "outline" })}
+              >
+                <Heart className="size-4" />
+                Save jobs
+              </Link>
+            )}
           </div>
           <section>
             <JsonToHtml json={JSON.parse(jobData.jobDescription)} />

@@ -2,7 +2,8 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { useFormStatus } from "react-dom";
-import { Loader2 } from "lucide-react";
+import { Heart, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type PropType = {
   text: string;
@@ -26,3 +27,27 @@ export const SubmitButton = ({ text, icon }: PropType) => {
     </Button>
   );
 };
+export function SaveJobButton({ isJobSaved }: { isJobSaved: boolean }) {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button variant={"outline"} type="submit" disabled={pending}>
+      {pending ? (
+        <>
+          <Loader2 className="size-4 animate-spin" />
+          {<span>{isJobSaved ? "unSaving..." : "Saving..."}</span>}
+        </>
+      ) : (
+        <>
+          <Heart
+            className={cn(
+              isJobSaved ? "fill-current text-red-500" : "",
+              "size-4 transition-colors"
+            )}
+          />
+          {isJobSaved ? "Saved" : "Save Job"}
+        </>
+      )}
+    </Button>
+  );
+}
