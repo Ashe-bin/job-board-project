@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { Card, CardHeader } from "./ui/card";
-import { MapIcon, MapPin, User2 } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "./ui/badge";
 import { formatCurrency } from "@/app/utils/formatCurrency";
@@ -35,7 +35,7 @@ export const JobCard = ({
   salaryTo,
 }: JobCardProps) => {
   return (
-    <Link href={`/job/{id}`}>
+    <Link href={`/job/${id}`}>
       <Card className="hover:shadow-lg transition-all duration-300 hover:border-primary">
         <CardHeader>
           <div className="flex flex-col md:flex-row gap-4">
