@@ -1,10 +1,12 @@
+import { checkSessionExits } from "@/app/utils/checkSessionExits";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-export default function PaymentSuccess() {
+export default async function PaymentSuccess() {
+  await checkSessionExits();
   return (
     <div className="w-full min-h-screen flex flex-1 justify-center items-center">
       <Card className="w-[350px]">
@@ -17,7 +19,7 @@ export default function PaymentSuccess() {
             <p className="text-muted-foreground text-sm mt-2 tracking-tight text-balance">
               Congrats your payment Successful. Your job posting is now active!
             </p>
-            <Button asChild className="w-full mt-5">
+            <Button asChild className="w-full mt -5">
               <Link href="/">Go back to Homepage</Link>
             </Button>
           </div>

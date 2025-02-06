@@ -53,7 +53,7 @@ export const JobCard = ({
                 <span className="hidden md:inline text-muted-foreground">
                   *
                 </span>
-                <Badge className="rounded-full" variant={"secondary"}>
+                <Badge className="rounded-full " variant={"secondary"}>
                   {employmentType}
                 </Badge>
                 <span className="hidden md:inline text-muted-foreground">

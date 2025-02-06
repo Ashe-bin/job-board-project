@@ -28,7 +28,7 @@ export const SalaryRangeSelector = ({
 
   function handleChangeRange(value: number[]) {
     const newRange: [number, number] = [value[0], value[1]];
-    setRange((prevRange) => {
+    setRange(() => {
       console.log("Updated range:", newRange);
       fromField.onChange(newRange[0]);
       toField.onChange(newRange[1]);

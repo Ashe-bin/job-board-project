@@ -12,7 +12,9 @@ export const CopyLinkMenu = ({ jobURL }: CopyLinkMenuProps) => {
     try {
       await navigator.clipboard.writeText(jobURL);
       toast.success("URL copied to clipboard");
-    } catch (error) {}
+    } catch (error) {
+      console.error(`error copying a file ${error}`);
+    }
   };
   return (
     <DropdownMenuItem onSelect={handleCopy}>

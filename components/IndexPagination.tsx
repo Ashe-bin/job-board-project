@@ -10,7 +10,6 @@ import {
   PaginationPrevious,
 } from "./ui/pagination";
 import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "sonner";
 
 interface IndexPaginationProps {
   totalPages: number;

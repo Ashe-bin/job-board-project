@@ -115,7 +115,7 @@ const PostJobPage = async () => {
                   className="border-l-2 border-primary pl-4"
                 >
                   <p className="text-sm text-muted-foreground italic">
-                    "{testimonial.quote}"
+                    {testimonial.quote}
                   </p>
                   <footer className="mt-2 text-sm font-medium">
                     - {testimonial.name}, {testimonial.company}
