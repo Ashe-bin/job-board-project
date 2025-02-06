@@ -33,7 +33,11 @@ export const LoginForm = async () => {
                 await signIn("github", { redirectTo: "/onboarding" });
               }}
             >
-              <SubmitButton text="Login with Github" icon={<Github />} />
+              <SubmitButton
+                variant="outline"
+                text="Login with Github"
+                icon={<Github />}
+              />
             </form>
             <form
               action={async () => {
@@ -41,7 +45,11 @@ export const LoginForm = async () => {
                 await signIn("google", { redirectTo: "/onboarding" });
               }}
             >
-              <SubmitButton text="Login with google" icon={<Google />} />
+              <SubmitButton
+                variant="outline"
+                text="Login with google"
+                icon={<Google />}
+              />
             </form>
           </div>
         </CardContent>

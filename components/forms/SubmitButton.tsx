@@ -7,13 +7,20 @@ import { cn } from "@/lib/utils";
 
 type PropType = {
   text: string;
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
   icon: React.ReactNode;
 };
 
-export const SubmitButton = ({ text, icon }: PropType) => {
+export const SubmitButton = ({ text, icon, variant }: PropType) => {
   const { pending } = useFormStatus();
   return (
-    <Button className="w-full" variant={"outline"} disabled={pending}>
+    <Button className="w-full" variant={variant} disabled={pending}>
       {pending ? (
         <>
           <Loader2 className="size-4 animate-spin" />
