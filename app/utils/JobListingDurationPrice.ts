@@ -5,7 +5,7 @@ interface ListingPriceProps {
 }
 
 export const JobListingDurationPrice: ListingPriceProps[] = [
-  { days: 30, price: 99, description: "standard listing" },
-  { days: 60, price: 179, description: "Extended visibility" },
-  { days: 90, price: 249, description: "Maximum Exposure" },
+  { days: 7, price: 10, description: "standard listing" },
+  { days: 15, price: 20, description: "Extended visibility" },
+  { days: 30, price: 50, description: "Maximum Exposure" },
 ];
