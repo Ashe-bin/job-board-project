@@ -9,7 +9,6 @@ interface SalaryRangeSelectorProps {
   minSalary: number;
   maxSalary: number;
   step: number;
-  currency: string;
 }
 
 export const SalaryRangeSelector = ({

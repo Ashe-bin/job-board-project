@@ -187,7 +187,6 @@ export const JobPostForm = ({
                     control={form.control}
                     minSalary={0}
                     maxSalary={500000}
-                    currency="USD"
                     step={10}
                   />
                 </FormControl>
