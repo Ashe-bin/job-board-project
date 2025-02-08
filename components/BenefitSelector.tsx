@@ -27,7 +27,7 @@ const BenefitSelector = ({ field }: BenefitSelectorProps) => {
           return (
             <Badge
               key={benefit.id}
-              variant={isSelected ? "secondary" : "outline"}
+              variant={isSelected ? "default" : "outline"}
               className="cursor-pointer transition-all hover:scale-105 active:scale-95 text-sm px-3 py-1 rounded-full tracking-wide font-normal border border-primary/30 duration-300"
               onClick={() => toggleBenefit(benefit.id)}
             >
