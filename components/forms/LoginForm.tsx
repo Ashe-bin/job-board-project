@@ -19,7 +19,7 @@ export const LoginForm = async () => {
   }
 
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col gap-6 w-full px-2">
       <Card className="text-center">
         <CardHeader>
           <CardTitle className="text-xl">Welcome Back</CardTitle>
