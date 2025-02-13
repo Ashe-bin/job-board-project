@@ -15,47 +15,49 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Find & Post Jobs | Your Job Board",
+  title: "Hire-Folio | Find & Post Jobs ",
   description:
     "Discover job opportunities or post job listings with ease. Connect with top talent and employers in your industry.",
   keywords: [
     "jobs",
+    "find a job",
+    "post a job",
+    "hire developers",
     "freelance jobs",
     "remote work",
     "job board",
-    "find a job",
-    "hire developers",
-    "freelancers",
+    "job seekers",
+    "hiring platform",
   ],
   authors: [{ name: "Ashenafi Alebachew" }],
-  applicationName: "Your Job Board",
+  applicationName: "Hire-Folio",
   viewport: "width=device-width, initial-scale=1",
   openGraph: {
-    title: "Find & Post Jobs | Your Job Board",
+    title: "Hire-Folio | Find & Post Jobs",
     description:
-      "Find top talent or your next job opportunity. Remote and full-time jobs available!",
-    url: "https://job-board-project-iota.vercel.app",
-    siteName: "Your Job Board",
+      "Hire-Folio connects top talent with the best job opportunities. Job seekers and businesses can easily discover jobs and post job listings.",
+    url: "https://hire-folio-iota.vercel.app",
+    siteName: "Hire-Folio",
     images: [
       {
-        url: "https://images.pexels.com/photos/652348/pexels-photo-652348.jpeg?auto=compress&cs=tinysrgb&w=600",
+        url: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         width: 1200,
         height: 630,
-        alt: "Your Job Board - Find & Post Jobs",
+        alt: "Hire-Folio - Find & Post Jobs",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Find & Post Jobs | Your Job Board",
+    title: "Find & Post Jobs | Hire-Folio",
     description: "Connect with top companies and job seekers in your industry.",
     images: [
-      "https://images.pexels.com/photos/652348/pexels-photo-652348.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     ],
   },
   alternates: {
-    canonical: "https://job-board-project-iota.vercel.app",
+    canonical: "https://hire-folio-iota.vercel.app",
   },
   robots: "index, follow",
 };
