@@ -65,7 +65,7 @@ export async function Navbar() {
             <SheetContent>
               <SheetHeader className="text-left">
                 <SheetTitle>
-                  Job<span className="text-primary">Board</span>
+                  Hire<span className="text-fuchsia-900">Sphere</span>
                 </SheetTitle>
                 <SheetDescription>Find or Post job</SheetDescription>
               </SheetHeader>
