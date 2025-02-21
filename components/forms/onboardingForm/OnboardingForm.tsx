@@ -32,7 +32,7 @@ export const OnboardingForm = () => {
       <div className="flex   justify-center gap-4 mb-10">
         <LogoIcon width={50} height={50} />
         <h1 className="text-4xl font-bold">
-          Job<span className="text-primary">Marshal</span>
+          HIRE<span className="text-fuchsia-900">-FOLIO</span>
         </h1>
       </div>
       <Card className="max-w-lg w-full">
